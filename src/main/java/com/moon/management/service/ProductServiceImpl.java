@@ -1,10 +1,12 @@
 package com.moon.management.service;
 
 import com.moon.management.ProductRepository;
+import com.moon.management.contains.ProjectContains;
 import com.moon.management.dto.ProductReadResponse;
 import com.moon.management.dto.request.ProductCreateRequest;
 import com.moon.management.dto.response.ProductCreateResponse;
 import com.moon.management.entity.Product;
+import com.moon.management.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +65,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductReadResponse getProductById(Long productId) {
-         Optional<Product> foundedProduct = productRepository.findById(productId);
+//         Optional<Product> foundedProduct = productRepository.findById(productId);
+//         if(foundedProduct.isEmpty())
+//             return new ProductReadResponse();
+//         ProductReadResponse response = new ProductReadResponse();
+//         response.setName(foundedProduct.get().getName());
+//         response.setAvailable(foundedProduct.get().getAvailable());
+       // return response;
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(ProjectContains.PRODUCT_NOT_FOUND));
+        return ProductReadResponse.builder()
+                .name(product.getName())
+                .available(product.getAvailable())
+                .build();
+
 
     }
 

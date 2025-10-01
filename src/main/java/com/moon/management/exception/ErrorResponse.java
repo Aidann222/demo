@@ -1,4 +1,4 @@
-package com.moon.management.dto;
+package com.moon.management.exception;
 
 
 import lombok.AllArgsConstructor;
@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductReadResponse {
+public class ErrorResponse {
 
-    private String name;
-    private Boolean available;
-
+    private Integer code;
+    private String message;
 }
