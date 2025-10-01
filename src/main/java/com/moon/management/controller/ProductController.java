@@ -6,6 +6,7 @@ import com.moon.management.dto.response.ProductCreateResponse;
 import com.moon.management.service.ProductService;
 import com.moon.management.service.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +20,22 @@ public class ProductController {
     private final ProductServiceImpl productService;
 
     @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
     public ProductCreateResponse createProduct(@RequestBody ProductCreateRequest createRequest) {
         return productService.createProduct(createRequest);
     }
 
     @GetMapping("/all")
     public List<ProductReadResponse> getAllProducts(){
-         List<ProductReadResponse> allProducts = productService.getAllProducts();
-         return allProducts;
-        }
+         return productService.getAllProducts();
+    }
+
+    @GetMapping("/{productId}")
+    public ProductReadResponse getProduct(@PathVariable(name = "productId") Long productId){ // sual
+        return productService.getProductById(productId);
+    }
+
+
+
+
 }
